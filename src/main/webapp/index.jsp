@@ -11,7 +11,6 @@
 
 <h2>Hello World!</h2>
 <p>Standard JSP</p>
-<p>What's wrong?</p>
 
 </body>
 </html>

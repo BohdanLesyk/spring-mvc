@@ -3,10 +3,9 @@ package software.sigma.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import software.sigma.UserDAO;
+import software.sigma.models.User;
 
 @Controller
 @RequestMapping("/users")
@@ -30,5 +29,19 @@ public class UserController {
         model.addAttribute("user", userDAO.show(id));
 
         return "user/show";
+    }
+
+    @GetMapping("new-user")
+    public String newPerson(Model model) {
+        model.addAttribute("user", new User());
+
+        return "user/new";
+    }
+
+    @PostMapping()
+    public String create(@ModelAttribute("user") User user) {
+        userDAO.save(user);
+
+        return "redirect:/users";
     }
 }

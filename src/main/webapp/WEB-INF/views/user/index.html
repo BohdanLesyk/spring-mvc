@@ -9,11 +9,17 @@
 </head>
 <body>
 
-<ul th:each="user : ${users}">
-   <li>
+<ul>
+   <li th:each="user : ${users}">
        <a th:text="${user.getName()}" th:href="@{/users/{id}(id=${user.getId()})}">user</a>
    </li>
 </ul>
+
+<div>
+    <a href="/users/new-user">
+        <button>Create new user</button>
+    </a>
+</div>
 
 </body>
 </html>

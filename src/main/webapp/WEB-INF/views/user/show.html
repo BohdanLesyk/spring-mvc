@@ -16,7 +16,15 @@
     <a href="/users">
         <button>To user list</button>
     </a>
+    <br>
+    <a th:href="@{/users/{id}/edit(id=${user.getId()})}">Edit user</a>
 </div>
+
+<br>
+<hr>
+<form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+    <input type="submit" value="Delete">
+</form>
 
 </body>
 </html>

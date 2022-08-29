@@ -14,10 +14,10 @@ public class UserDAO {
     {
         users = new LinkedList<>();
 
-        users.add(new User(++USERS_COUNT, "Tom"));
-        users.add(new User(++USERS_COUNT, "Bred"));
-        users.add(new User(++USERS_COUNT, "Jolie"));
-        users.add(new User(++USERS_COUNT, "John"));
+        users.add(new User(++USERS_COUNT, "Tom", 24, "tom@gmail.com"));
+        users.add(new User(++USERS_COUNT, "Bred", 53, "bred@gmail.com"));
+        users.add(new User(++USERS_COUNT, "Jolie", 18, "jolie@gmail.com"));
+        users.add(new User(++USERS_COUNT, "John", 35, "john@gmail.com"));
     }
 
     public List<User> index() {
@@ -37,6 +37,8 @@ public class UserDAO {
         User userToBeUpdated = show(id);
 
         userToBeUpdated.setName(user.getName());
+        userToBeUpdated.setAge(user.getAge());
+        userToBeUpdated.setEmail(user.getEmail());
     }
 
     public void delete(int id) {

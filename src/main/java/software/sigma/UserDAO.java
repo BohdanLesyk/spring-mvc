@@ -13,7 +13,7 @@ public class UserDAO {
     private static final String USERNAME = "postgres";//be better save in properties file in real projects
     private static final String PASSWORD = "postgres";
 
-    private static Connection connection;
+    private static final Connection connection;
 
     static {
         try {
@@ -55,23 +55,69 @@ public class UserDAO {
     }
 
     public User show (final int userId) {
-        return null;
+        User user = null;
+
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("SELECT * FROM users WHERE id=?");
+
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            user = new User();
+
+            user.setId(resultSet.getInt("id"));
+            user.setName(resultSet.getString("name"));
+            user.setEmail(resultSet.getString("email"));
+            user.setAge(resultSet.getInt("age"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return user;
     }
 
     public void save(User user) {
         try {
-            Statement statement = connection.createStatement();
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("INSERT INTO users VALUES(1, ?, ?, ?)");
 
-            String query = "INSERT INTO users VALUES(" + 1 + ",'" + user.getName() + "'," +
-                user.getAge() + ",'" + user.getEmail() + "');";
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setInt(2, user.getAge());
+            preparedStatement.setString(3, user.getEmail());
 
-            statement.executeUpdate(query);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void update(int id, User user) { }
+    public void update(int id, User user) {
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("UPDATE users SET name=?, age=?, email=? WHERE id=?");
 
-    public void delete(int id) { }
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setInt(2, user.getAge());
+            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setInt(4, id);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void delete(int id) {
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("DELETE FROM users WHERE id=?");
+
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

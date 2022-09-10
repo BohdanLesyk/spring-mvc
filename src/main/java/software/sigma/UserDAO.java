@@ -1,6 +1,7 @@
 package software.sigma;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import software.sigma.dao.UserMapper;
@@ -18,7 +19,7 @@ public class UserDAO {
     }
 
     public List<User> index() {
-        return jdbcTemplate.query("SELECT * FROM users", new UserMapper());
+        return jdbcTemplate.query("SELECT * FROM users", new BeanPropertyRowMapper<>(User.class));
     }
 
     public User show (final int userId) {
